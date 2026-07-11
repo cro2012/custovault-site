@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Custovault — An AI employee that knows your business. In your EU tenant, under your keys.</title>
+<meta name="description" content="Custovault is a sovereign, managed private-AI platform for EU organizations. Connected to your systems of record, hosted in the EU, under your keys — with DORA-ready evidence included.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A1F33'/%3E%3Cpath d='M 10 14 L 32 30 L 54 14' fill='none' stroke='%23FFFFFF' stroke-width='7' stroke-linecap='square'/%3E%3Cpath d='M 14 30 L 32 43 L 50 30' fill='none' stroke='%23FFFFFF' stroke-width='7' stroke-linecap='square' opacity='0.62'/%3E%3Cpath d='M 18 45 L 32 55 L 46 45' fill='none' stroke='%237EA4E8' stroke-width='7' stroke-linecap='square'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0A1F33;
+    --cobalt: #14418F;
+    --cobalt-light: #7EA4E8;
+    --slate: #5B6B7C;
+    --mist: #F2F5F8;
+    --paper: #FFFFFF;
+    --line: #DCE4EC;
+    --line-dark: #24405C;
+    --sans: 'Schibsted Grotesk', 'Segoe UI', -apple-system, sans-serif;
+    --mono: 'IBM Plex Mono', 'Consolas', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 1140px; margin: 0 auto; padding: 0 32px; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cobalt);
+    display: block;
+    margin-bottom: 20px;
+  }
+  h2 {
+    font-size: clamp(28px, 3.6vw, 42px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    max-width: 760px;
+  }
+  .section-intro {
+    margin-top: 20px;
+    max-width: 640px;
+    font-size: 17px;
+    color: var(--slate);
+  }
+  section { padding: 104px 0; }
+
+  /* ---------- Nav ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 72px;
+  }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .logo svg { display: block; }
+  .logo span { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-links a {
+    text-decoration: none; font-size: 14.5px; font-weight: 500; color: var(--slate);
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .btn {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 15px; font-weight: 600;
+    text-decoration: none;
+    padding: 13px 26px;
+    border: 1px solid var(--ink);
+    transition: background .15s, color .15s;
+  }
+  .btn-solid { background: var(--ink); color: #fff; }
+  .btn-solid:hover { background: var(--cobalt); border-color: var(--cobalt); }
+  .btn-ghost { background: transparent; color: var(--ink); }
+  .btn-ghost:hover { border-color: var(--cobalt); color: var(--cobalt); }
+  .nav .btn { padding: 10px 20px; font-size: 14px; }
+  .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+  .menu-toggle svg { display: block; }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 104px 0 112px; }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.15fr 0.85fr;
+    gap: 64px; align-items: center;
+  }
+  .hero h1 {
+    font-size: clamp(38px, 5vw, 60px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 .accent { color: var(--cobalt); }
+  .hero p.lead {
+    margin-top: 26px; font-size: 18px; color: var(--slate); max-width: 560px;
+  }
+  .hero-ctas { margin-top: 36px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-chips { margin-top: 44px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    background: var(--mist);
+    padding: 7px 12px;
+    white-space: nowrap;
+  }
+  .hero-visual svg { width: 100%; height: auto; display: block; }
+
+  /* ---------- Why now ---------- */
+  .band-mist { background: var(--mist); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 32px 28px;
+  }
+  .card .num {
+    font-family: var(--mono); font-size: 13px; color: var(--cobalt); display: block; margin-bottom: 18px;
+  }
+  .card h3 { font-size: 19px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.01em; }
+  .card p { font-size: 15px; color: var(--slate); }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .stat { border-left: 1px solid var(--line); padding-left: 24px; }
+  .stat .figure {
+    font-family: var(--mono); font-size: clamp(34px, 4vw, 48px); font-weight: 500;
+    color: var(--ink); line-height: 1.1; display: block;
+  }
+  .stat .figure em { font-style: normal; color: var(--cobalt); }
+  .stat p { margin-top: 10px; font-size: 14.5px; color: var(--slate); max-width: 300px; }
+
+  /* ---------- Depth x Permission ---------- */
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px; }
+  .duo-card { border: 1px solid var(--line); padding: 40px 36px; }
+  .duo-card.depth { background: var(--paper); }
+  .duo-card.permission { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .duo-card .tag {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+    display: block; margin-bottom: 22px; color: var(--cobalt);
+  }
+  .duo-card.permission .tag { color: var(--cobalt-light); }
+  .duo-card h3 { font-size: 24px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; margin-bottom: 14px; }
+  .duo-card p { font-size: 15.5px; color: var(--slate); }
+  .duo-card.permission p { color: #B9C7D6; }
+  .duo-note {
+    margin-top: 24px; padding: 22px 28px;
+    border: 1px solid var(--line); background: var(--mist);
+    font-size: 15.5px; color: var(--ink);
+  }
+  .duo-note strong { font-weight: 600; }
+
+  /* ---------- Three layers ---------- */
+  .layers { margin-top: 56px; display: grid; gap: 0; border: 1px solid var(--line); }
+  .layer {
+    display: grid; grid-template-columns: 200px 1fr; gap: 32px;
+    padding: 40px 36px; background: var(--paper);
+  }
+  .layer + .layer { border-top: 1px solid var(--line); }
+  .layer .step { display: flex; flex-direction: column; gap: 8px; }
+  .layer .step .num { font-family: var(--mono); font-size: 13px; color: var(--cobalt); }
+  .layer .step h3 { font-size: 21px; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; }
+  .layer .step .sub { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--slate); }
+  .layer .body p { font-size: 15.5px; color: var(--slate); max-width: 640px; }
+  .layer .body .points { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .point {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.04em;
+    border: 1px solid var(--line); padding: 6px 10px; color: var(--ink); background: var(--mist);
+  }
+
+  /* ---------- Architecture (dark) ---------- */
+  .band-ink { background: var(--ink); color: #fff; }
+  .band-ink .eyebrow { color: var(--cobalt-light); }
+  .band-ink h2 { color: #fff; }
+  .band-ink .section-intro { color: #9FB1C2; }
+  .arch { margin-top: 56px; display: grid; grid-template-columns: 0.9fr auto 1.5fr; gap: 0; align-items: stretch; }
+  .arch-box { border: 1px solid var(--line-dark); padding: 28px; }
+  .arch-box .arch-title {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--cobalt-light); display: block; margin-bottom: 20px;
+  }
+  .arch-item {
+    border: 1px solid var(--line-dark); background: rgba(126,164,232,0.06);
+    padding: 14px 16px; font-size: 14px; margin-bottom: 10px;
+  }
+  .arch-item .label { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #8CA2B8; display: block; margin-bottom: 3px; }
+  .arch-item:last-child { margin-bottom: 0; }
+  .arch-flow {
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 0 22px; gap: 8px;
+  }
+  .arch-flow .arrow { font-family: var(--mono); color: var(--cobalt-light); font-size: 17px; }
+  .arch-flow .flow-label {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #8CA2B8; writing-mode: vertical-rl; text-orientation: mixed;
+  }
+  .arch-note { margin-top: 8px; font-size: 12.5px; color: #8CA2B8; font-family: var(--mono); letter-spacing: 0.02em; }
+  .arch-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .arch-inner .span2 { grid-column: 1 / -1; }
+  .arch-footer {
+    margin-top: 24px; padding: 18px 24px; border: 1px solid var(--line-dark);
+    font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.06em; color: #B9C7D6;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .arch-footer .dot { width: 8px; height: 8px; background: var(--cobalt-light); flex-shrink: 0; }
+
+  /* ---------- Use cases ---------- */
+  .grid-9 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .uc { border: 1px solid var(--line); padding: 26px 24px; background: var(--paper); }
+  .uc h3 { font-size: 16.5px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.01em; }
+  .uc p { font-size: 14px; color: var(--slate); }
+  .uc .uc-num { font-family: var(--mono); font-size: 11px; color: var(--cobalt); display: block; margin-bottom: 14px; }
+
+  /* ---------- Who it's for ---------- */
+  .sectors { margin-top: 56px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .sector { border-top: 2px solid var(--ink); padding-top: 16px; }
+  .sector h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .sector p { font-size: 13.5px; color: var(--slate); }
+
+  /* ---------- Compare ---------- */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px; }
+  .compare-col { border: 1px solid var(--line); padding: 36px 32px; }
+  .compare-col.them { background: var(--mist); }
+  .compare-col.us { background: var(--paper); border-color: var(--cobalt); }
+  .compare-col h3 { font-size: 19px; font-weight: 700; margin-bottom: 24px; }
+  .compare-col.us h3 { color: var(--cobalt); }
+  .compare-col ul { list-style: none; }
+  .compare-col li {
+    font-size: 15px; color: var(--slate); padding: 12px 0 12px 30px;
+    border-top: 1px solid var(--line); position: relative;
+  }
+  .compare-col li::before {
+    font-family: var(--mono); position: absolute; left: 0; top: 12px; font-size: 14px;
+  }
+  .compare-col.them li::before { content: "—"; color: var(--slate); }
+  .compare-col.us li::before { content: "+"; color: var(--cobalt); font-weight: 500; }
+  .compare-col.us li { color: var(--ink); }
+  .compare-result {
+    margin-top: 24px; padding: 22px 28px; background: var(--ink); color: #fff; font-size: 15.5px;
+  }
+  .compare-result strong { color: var(--cobalt-light); font-weight: 600; }
+
+  /* ---------- Compliance ---------- */
+  .grid-6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .honest {
+    margin-top: 24px; border: 1px solid var(--line); border-left: 3px solid var(--cobalt);
+    padding: 22px 28px; font-size: 15px; color: var(--slate); background: var(--paper);
+  }
+  .honest strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- Founding ---------- */
+  .timeline { margin-top: 56px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .t-step { border-top: 2px solid var(--line); padding-top: 18px; position: relative; }
+  .t-step.active { border-top-color: var(--cobalt); }
+  .t-step .when { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cobalt); display: block; margin-bottom: 8px; }
+  .t-step h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .t-step p { font-size: 13.5px; color: var(--slate); }
+
+  .offer { margin-top: 64px; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; }
+  .offer-main { border: 1px solid var(--line); padding: 40px 36px; }
+  .offer-main h3 { font-size: 22px; font-weight: 700; margin-bottom: 24px; letter-spacing: -0.01em; }
+  .offer-item { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .offer-item .num { font-family: var(--mono); font-size: 13px; color: var(--cobalt); padding-top: 2px; }
+  .offer-item h4 { font-size: 16px; font-weight: 700; }
+  .offer-item p { font-size: 14px; color: var(--slate); margin-top: 2px; }
+  .offer-side { background: var(--mist); border: 1px solid var(--line); padding: 40px 36px; }
+  .offer-side h3 { font-size: 16px; font-weight: 700; margin-bottom: 18px; }
+  .offer-side ul { list-style: none; }
+  .offer-side li {
+    font-size: 14.5px; color: var(--slate); padding: 10px 0 10px 24px; position: relative;
+    border-top: 1px solid var(--line);
+  }
+  .offer-side li::before { content: "·"; font-family: var(--mono); position: absolute; left: 4px; color: var(--cobalt); font-weight: 700; }
+  .offer-side .note { margin-top: 20px; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.04em; color: var(--slate); }
+
+  /* ---------- Final CTA ---------- */
+  .final { text-align: left; }
+  .final h2 { font-size: clamp(34px, 4.6vw, 56px); max-width: 700px; }
+  .final p { margin-top: 22px; font-size: 17px; color: #9FB1C2; max-width: 560px; }
+  .final .btn-solid { background: #fff; color: var(--ink); border-color: #fff; margin-top: 40px; }
+  .final .btn-solid:hover { background: var(--cobalt-light); border-color: var(--cobalt-light); color: var(--ink); }
+  .final .contact { margin-top: 28px; font-family: var(--mono); font-size: 13px; color: #8CA2B8; }
+  .final .contact a { color: var(--cobalt-light); text-decoration: none; }
+
+  /* ---------- Footer ---------- */
+  footer { border-top: 1px solid var(--line); padding: 36px 0; }
+  .foot { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .foot .left { display: flex; align-items: center; gap: 12px; }
+  .foot span { font-size: 14px; color: var(--slate); }
+  .foot .fine { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.04em; color: var(--slate); }
+
+  /* ---------- Reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 960px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+    .hero-visual { max-width: 440px; }
+    .cards-3, .grid-9, .grid-6 { grid-template-columns: 1fr 1fr; }
+    .stats { grid-template-columns: 1fr; gap: 32px; }
+    .duo, .compare, .offer { grid-template-columns: 1fr; }
+    .sectors, .timeline { grid-template-columns: 1fr 1fr; row-gap: 36px; }
+    .arch { grid-template-columns: 1fr; }
+    .arch-flow { flex-direction: row; padding: 18px 0; }
+    .arch-flow .arrow { transform: rotate(90deg); }
+    .arch-flow .flow-label { writing-mode: horizontal-tb; }
+    .arch-inner { grid-template-columns: 1fr; }
+    .layer { grid-template-columns: 1fr; gap: 18px; }
+  }
+  @media (max-width: 720px) {
+    section { padding: 72px 0; }
+    .hero { padding: 64px 0 80px; }
+    .wrap { padding: 0 22px; }
+    .cards-3, .grid-9, .grid-6 { grid-template-columns: 1fr; }
+    .nav-links {
+      display: none;
+      position: absolute; top: 72px; left: 0; right: 0;
+      background: #fff; border-bottom: 1px solid var(--line);
+      flex-direction: column; align-items: flex-start;
+      padding: 20px 22px; gap: 18px;
+    }
+    .nav-links.open { display: flex; }
+    .menu-toggle { display: block; }
+    .nav > .btn { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="Custovault — home">
+      <svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M 10 14 L 32 30 L 54 14" fill="none" stroke="#0A1F33" stroke-width="7" stroke-linecap="square"/>
+        <path d="M 14 30 L 32 43 L 50 30" fill="none" stroke="#0A1F33" stroke-width="7" stroke-linecap="square" opacity="0.62"/>
+        <path d="M 18 45 L 32 55 L 46 45" fill="none" stroke="#14418F" stroke-width="7" stroke-linecap="square"/>
+      </svg>
+      <span>Custovault</span>
+    </a>
+    <nav class="nav-links" id="navlinks">
+      <a href="#why-now">Why now</a>
+      <a href="#value">What you gain</a>
+      <a href="#how">How it works</a>
+      <a href="#use-cases">Use cases</a>
+      <a href="#compliance">Compliance</a>
+      <a href="#founding">Founding customers</a>
+    </nav>
+    <a class="btn btn-solid" href="mailto:ab@custovault.com?subject=Custovault%20%E2%80%94%20founding%20customer">Book 30 minutes</a>
+    <button class="menu-toggle" id="menutoggle" aria-label="Menu" aria-expanded="false">
+      <svg width="24" height="24" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke="#0A1F33" stroke-width="2" stroke-linecap="square"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Sovereign private AI · EU</span>
+        <h1>An AI employee that knows your business.<br><span class="accent">In your EU tenant, under your keys.</span></h1>
+        <p class="lead">Custovault connects assistants and task agents to your systems of record — on-prem SQL, SAP, document flows, market feeds — so they answer what public chatbots physically can't. Fully managed, EU-hosted end to end, and built so your data never leaves your control.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-solid" href="#founding">Become a founding customer</a>
+          <a class="btn btn-ghost" href="#how">See how it works</a>
+        </div>
+        <div class="hero-chips">
+          <span class="chip">EU-HOSTED · EU JURISDICTION</span>
+          <span class="chip">YOUR KEYS — BYOK / HYOK</span>
+          <span class="chip">SINGLE TENANT</span>
+          <span class="chip">DORA-READY EVIDENCE</span>
+          <span class="chip">OPEN-WEIGHT MODELS ONLY</span>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <svg viewBox="0 0 520 400" xmlns="http://www.w3.org/2000/svg">
+          <!-- chevrons -->
+          <path d="M 60 70 L 200 170 L 340 70" fill="none" stroke="#0A1F33" stroke-width="30" stroke-linecap="square"/>
+          <path d="M 88 172 L 200 254 L 312 172" fill="none" stroke="#0A1F33" stroke-width="30" stroke-linecap="square" opacity="0.62"/>
+          <path d="M 116 268 L 200 330 L 284 268" fill="none" stroke="#14418F" stroke-width="30" stroke-linecap="square"/>
+          <!-- annotation lines -->
+          <path d="M 348 100 L 396 100 L 396 96" fill="none" stroke="#DCE4EC" stroke-width="1.5"/>
+          <path d="M 320 202 L 396 202 L 396 198" fill="none" stroke="#DCE4EC" stroke-width="1.5"/>
+          <path d="M 292 298 L 396 298 L 396 294" fill="none" stroke="#DCE4EC" stroke-width="1.5"/>
+          <!-- annotations -->
+          <text x="408" y="92" font-family="'IBM Plex Mono', Consolas, monospace" font-size="11.5" letter-spacing="1.2" fill="#14418F">PERIMETER</text>
+          <text x="408" y="110" font-family="'Schibsted Grotesk', 'Segoe UI', sans-serif" font-size="12.5" fill="#5B6B7C">Your dedicated</text>
+          <text x="408" y="126" font-family="'Schibsted Grotesk', 'Segoe UI', sans-serif" font-size="12.5" fill="#5B6B7C">EU tenant</text>
+          <text x="408" y="194" font-family="'IBM Plex Mono', Consolas, monospace" font-size="11.5" letter-spacing="1.2" fill="#14418F">DEPTH</text>
+          <text x="408" y="212" font-family="'Schibsted Grotesk', 'Segoe UI', sans-serif" font-size="12.5" fill="#5B6B7C">Connectors into your</text>
+          <text x="408" y="228" font-family="'Schibsted Grotesk', 'Segoe UI', sans-serif" font-size="12.5" fill="#5B6B7C">systems of record</text>
+          <text x="408" y="290" font-family="'IBM Plex Mono', Consolas, monospace" font-size="11.5" letter-spacing="1.2" fill="#14418F">CORE</text>
+          <text x="408" y="308" font-family="'Schibsted Grotesk', 'Segoe UI', sans-serif" font-size="12.5" fill="#5B6B7C">Your data,</text>
+          <text x="408" y="324" font-family="'Schibsted Grotesk', 'Segoe UI', sans-serif" font-size="12.5" fill="#5B6B7C">under your keys</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY NOW ============ -->
+  <section class="band-mist" id="why-now">
+    <div class="wrap">
+      <span class="eyebrow">Why now</span>
+      <h2>Three forces are converging at the same time.</h2>
+      <div class="cards-3">
+        <div class="card reveal">
+          <span class="num">01</span>
+          <h3>AI is becoming operational</h3>
+          <p>Companies want to run AI on their own data — fraud, risk, ops, documents, R&amp;D — not just experiment with public chatbots.</p>
+        </div>
+        <div class="card reveal">
+          <span class="num">02</span>
+          <h3>Regulation is tightening</h3>
+          <p>DORA (finance), GDPR and the EU AI Act push data control, third-party risk, auditability and exit planning up the board agenda.</p>
+        </div>
+        <div class="card reveal">
+          <span class="num">03</span>
+          <h3>Data sovereignty matters</h3>
+          <p>Putting sensitive or proprietary data on US hyperscalers raises jurisdiction, access and control questions that are now hard to ignore.</p>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat reveal">
+          <span class="figure">~22,000</span>
+          <p>EU financial entities now face DORA third-party and concentration rules.</p>
+        </div>
+        <div class="stat reveal">
+          <span class="figure">19</span>
+          <p>providers named Critical ICT Third-Party Providers by EU regulators — incl. AWS, Azure, Google Cloud.</p>
+        </div>
+        <div class="stat reveal">
+          <span class="figure"><em>1</em></span>
+          <p>place your data should live: under your keys, your control — not a shared AI cloud.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DEPTH x PERMISSION ============ -->
+  <section id="value">
+    <div class="wrap">
+      <span class="eyebrow">What you gain</span>
+      <h2>Depth public AI can't reach — and permission to use it.</h2>
+      <p class="section-intro">Two dimensions that only work together. Public chatbots have neither; enterprise assistants on US clouds have at most one.</p>
+      <div class="duo">
+        <div class="duo-card depth reveal">
+          <span class="tag">01 · Depth</span>
+          <h3>It knows your business.</h3>
+          <p>Connected to your systems of record — on-prem SQL and Oracle, SAP, files, market feeds — it answers and reports on complete, fresh data that public chatbots physically can't produce. Not "files someone uploaded last month": live, connected, whole.</p>
+        </div>
+        <div class="duo-card permission reveal">
+          <span class="tag">02 · Permission</span>
+          <h3>Your compliance can say yes.</h3>
+          <p>Single tenant, your keys, EU jurisdiction end to end, audit trail and DORA artifacts. Your fine-tuned models belong to your tenant — never shared, never reused — so training on your own data is legally clean.</p>
+        </div>
+      </div>
+      <div class="duo-note reveal">
+        <strong>The vault isn't a second product — it's the licence for the depth.</strong> Sovereignty is what makes it legal to hand an AI your real data and train models on it. Each dimension is worthless without the other.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="band-mist" id="how">
+    <div class="wrap">
+      <span class="eyebrow">How it works</span>
+      <h2>Three layers. One managed contour.</h2>
+      <div class="layers">
+        <div class="layer reveal">
+          <div class="step">
+            <span class="num">01</span>
+            <h3>Connect</h3>
+            <span class="sub">Mini-implementation · fixed scope</span>
+          </div>
+          <div class="body">
+            <p>A productized integration project: we audit your data sources, deploy connectors and build the pipelines that keep your tenant's data complete and fresh — ready for RAG and fine-tuning. Fixed scope, fixed price, weeks not months.</p>
+            <div class="points">
+              <span class="point">ON-PREM SQL / ORACLE</span>
+              <span class="point">SAP</span>
+              <span class="point">FILES / SHAREPOINT</span>
+              <span class="point">MARKET &amp; EXCHANGE FEEDS</span>
+            </div>
+          </div>
+        </div>
+        <div class="layer reveal">
+          <div class="step">
+            <span class="num">02</span>
+            <h3>Operate</h3>
+            <span class="sub">Your AI employee · subscription</span>
+          </div>
+          <div class="body">
+            <p>A dedicated EU tenant running curated open-weight models (e.g. Mistral) and a bespoke fine-tune on 100–200 of your reference documents — output in your house style. Ask-your-data chat, vertical task agents, scheduled reports on live data, an OpenAI-compatible API. We handle MLOps, monitoring and support.</p>
+            <div class="points">
+              <span class="point">TALK TO YOUR DATA</span>
+              <span class="point">TASK AGENTS</span>
+              <span class="point">SCHEDULED REPORTING</span>
+              <span class="point">OPENAI-COMPATIBLE API</span>
+            </div>
+          </div>
+        </div>
+        <div class="layer reveal">
+          <div class="step">
+            <span class="num">03</span>
+            <h3>Prove</h3>
+            <span class="sub">Compliance layer · included</span>
+          </div>
+          <div class="body">
+            <p>Technical provability — your keys, tenant isolation, confidential computing on the roadmap — plus ready DORA artifacts: ICT third-party register, same-day incident reporting, a documented exit plan. Key and model-weight escrow. Your board buys risk removal, not infrastructure.</p>
+            <div class="points">
+              <span class="point">DORA EVIDENCE PACK</span>
+              <span class="point">EXIT PLAN</span>
+              <span class="point">AUDIT LOGS</span>
+              <span class="point">KEY &amp; WEIGHT ESCROW</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ARCHITECTURE ============ -->
+  <section class="band-ink" id="architecture">
+    <div class="wrap">
+      <span class="eyebrow">Architecture</span>
+      <h2>One tenant. Your keys in, encrypted. Nothing out.</h2>
+      <div class="arch">
+        <div class="arch-box reveal">
+          <span class="arch-title">Your environment</span>
+          <div class="arch-item"><span class="label">Control</span>Encryption keys / HSM</div>
+          <div class="arch-item"><span class="label">Source</span>Your data &amp; systems of record</div>
+          <p class="arch-note">Keys never leave your control.</p>
+        </div>
+        <div class="arch-flow" aria-hidden="true">
+          <span class="flow-label">Encrypted</span>
+          <span class="arrow">→</span>
+        </div>
+        <div class="arch-box reveal">
+          <span class="arch-title">Custovault — your isolated tenant</span>
+          <div class="arch-inner">
+            <div class="arch-item"><span class="label">Enclave</span>Training</div>
+            <div class="arch-item"><span class="label">Enclave</span>Inference</div>
+            <div class="arch-item span2"><span class="label">Managed platform</span>Provisioning · MLOps · monitoring · support</div>
+            <div class="arch-item span2"><span class="label">Compliance layer</span>DORA docs · audit rights · exit &amp; logs</div>
+          </div>
+          <p class="arch-note">Operator has no access to your data in use.</p>
+        </div>
+      </div>
+      <div class="arch-footer reveal">
+        <span class="dot"></span>
+        HOSTED IN THE EU — EU DATA RESIDENCY AND JURISDICTION ACROSS EVERY LAYER
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ USE CASES ============ -->
+  <section id="use-cases">
+    <div class="wrap">
+      <span class="eyebrow">Use cases</span>
+      <h2>Where it pays off — across your business.</h2>
+      <p class="section-intro">We don't promise an employee that knows everything. We promise concrete tasks on concretely connected sources — and we prove them in a pilot first.</p>
+      <div class="grid-9">
+        <div class="uc reveal"><span class="uc-num">01</span><h3>Knowledge assistant</h3><p>Instant answers over internal docs.</p></div>
+        <div class="uc reveal"><span class="uc-num">02</span><h3>Contract &amp; policy review</h3><p>Faster reviews, lower legal cost.</p></div>
+        <div class="uc reveal"><span class="uc-num">03</span><h3>Support copilot</h3><p>Higher productivity, faster resolution.</p></div>
+        <div class="uc reveal"><span class="uc-num">04</span><h3>Fraud, risk &amp; scoring</h3><p>Better detection, fewer losses.</p></div>
+        <div class="uc reveal"><span class="uc-num">05</span><h3>Claims &amp; underwriting</h3><p>Faster triage, consistent decisions.</p></div>
+        <div class="uc reveal"><span class="uc-num">06</span><h3>KYC &amp; onboarding</h3><p>Shorter onboarding, less manual work.</p></div>
+        <div class="uc reveal"><span class="uc-num">07</span><h3>Compliance &amp; audit prep</h3><p>Audit packs in hours, not weeks.</p></div>
+        <div class="uc reveal"><span class="uc-num">08</span><h3>Scheduled reporting</h3><p>House-style reports from live data.</p></div>
+        <div class="uc reveal"><span class="uc-num">09</span><h3>R&amp;D &amp; document synthesis</h3><p>Faster research, protected IP.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHO IT'S FOR ============ -->
+  <section class="band-mist" id="who">
+    <div class="wrap">
+      <span class="eyebrow">Who it's for</span>
+      <h2>Commercial organizations with sensitive data or IP.</h2>
+      <div class="sectors">
+        <div class="sector reveal"><h3>Financial services</h3><p>Brokers, funds, payments, crypto</p></div>
+        <div class="sector reveal"><h3>Insurance</h3><p>Underwriting &amp; claims data</p></div>
+        <div class="sector reveal"><h3>Healthcare &amp; life sciences</h3><p>Patient &amp; clinical data</p></div>
+        <div class="sector reveal"><h3>Legal &amp; professional</h3><p>Privileged, confidential work</p></div>
+        <div class="sector reveal"><h3>Pharma &amp; R&amp;D</h3><p>Proprietary IP and models</p></div>
+        <div class="sector reveal"><h3>Telecom &amp; tech</h3><p>Customer &amp; network data</p></div>
+        <div class="sector reveal"><h3>Energy &amp; industry</h3><p>Critical operational data</p></div>
+        <div class="sector reveal"><h3>Any IP-sensitive enterprise</h3><p>Data that can't go to public AI</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ECONOMICS ============ -->
+  <section id="economics">
+    <div class="wrap">
+      <span class="eyebrow">Economics</span>
+      <h2>Build it yourself — or get it managed.</h2>
+      <p class="section-intro">The honest alternative to Custovault isn't a $300/month chatbot seat. It's an integrator, pipelines, an ML team and governance you run yourself.</p>
+      <div class="compare">
+        <div class="compare-col them reveal">
+          <h3>Build in-house</h3>
+          <ul>
+            <li>2–4 specialists (ML, infra, compliance): €250–500k / year</li>
+            <li>Hardware capex + reserved GPU commitments</li>
+            <li>9–12 months before anything is in production</li>
+            <li>You own all DORA / audit / exit evidence yourself</li>
+            <li>Ongoing hiring, retention and maintenance risk</li>
+          </ul>
+        </div>
+        <div class="compare-col us reveal">
+          <h3>With Custovault</h3>
+          <ul>
+            <li>Opex only — GPU cost shared, no capex</li>
+            <li>Live in weeks on a managed platform</li>
+            <li>Key control and tenant isolation included</li>
+            <li>DORA-ready evidence pack out of the box</li>
+            <li>Predictable monthly cost, scale up or down</li>
+          </ul>
+        </div>
+      </div>
+      <div class="compare-result reveal">
+        Typical result: skip <strong>€300k+/year</strong> of in-house cost and reach production in <strong>weeks instead of a year</strong>.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMPLIANCE ============ -->
+  <section class="band-mist" id="compliance">
+    <div class="wrap">
+      <span class="eyebrow">For your compliance team &amp; board</span>
+      <h2>Your data stays yours. Provably.</h2>
+      <div class="grid-6">
+        <div class="card reveal"><span class="num">01</span><h3>You hold the keys</h3><p>Bring your own keys (BYOK/HYOK). Custovault physically cannot decrypt your data.</p></div>
+        <div class="card reveal"><span class="num">02</span><h3>Only you train &amp; infer</h3><p>Only you run training and inference on your data — nobody else, ever.</p></div>
+        <div class="card reveal"><span class="num">03</span><h3>Data never leaves</h3><p>No egress to third parties. Never used to train shared or foundation models.</p></div>
+        <div class="card reveal"><span class="num">04</span><h3>Isolated tenant</h3><p>Dedicated single tenant; confidential computing on the roadmap — so even the operator can't see data in use.</p></div>
+        <div class="card reveal"><span class="num">05</span><h3>EU jurisdiction</h3><p>Hosted in the EU, under EU law, with full audit logs across every layer.</p></div>
+        <div class="card reveal"><span class="num">06</span><h3>Portable — no lock-in</h3><p>Exit tooling and a documented exit path, plus a DORA-ready evidence pack.</p></div>
+      </div>
+      <div class="honest reveal">
+        <strong>What we don't promise:</strong> that you'll "pass supervision". We give you the contour, the artifacts and reversibility — the supervisory conversation stays yours, with evidence in hand.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOUNDING ============ -->
+  <section id="founding">
+    <div class="wrap">
+      <span class="eyebrow">Founding customers</span>
+      <h2>Value proven on a real pilot — before we ask for commitments.</h2>
+      <div class="timeline">
+        <div class="t-step active reveal">
+          <span class="when">Now — 2026</span>
+          <h3>Internal pilot</h3>
+          <p>On real credit-domain data, with a live connector to a system of record. Measurable results first.</p>
+        </div>
+        <div class="t-step reveal">
+          <span class="when">Q4 2026</span>
+          <h3>Founding LOIs</h3>
+          <p>Letters of intent with pilot results in hand; confidential-computing stack in build.</p>
+        </div>
+        <div class="t-step reveal">
+          <span class="when">Jan 2027</span>
+          <h3>Early access</h3>
+          <p>Launch with the founding-customer cohort.</p>
+        </div>
+        <div class="t-step reveal">
+          <span class="when">2027</span>
+          <h3>General availability</h3>
+          <p>Expanded compliance certifications and capacity.</p>
+        </div>
+      </div>
+      <div class="offer">
+        <div class="offer-main reveal">
+          <h3>Become a founding customer</h3>
+          <div class="offer-item">
+            <span class="num">01</span>
+            <div><h4>Reserve your place</h4><p>Priority capacity in the January 2027 early-access cohort.</p></div>
+          </div>
+          <div class="offer-item">
+            <span class="num">02</span>
+            <div><h4>Lock founding pricing</h4><p>−25%, fixed for 24 months from launch.</p></div>
+          </div>
+          <div class="offer-item">
+            <span class="num">03</span>
+            <div><h4>Shape the roadmap</h4><p>Direct input on features, compliance scope and integrations.</p></div>
+          </div>
+        </div>
+        <div class="offer-side reveal">
+          <h3>In return, we ask</h3>
+          <ul>
+            <li>Your priority use case</li>
+            <li>Rough capacity need</li>
+            <li>A signed LOI / MoU — non-binding</li>
+            <li>Feedback as we build</li>
+          </ul>
+          <p class="note">NO PAYMENT NOW · CONVERTS AT LAUNCH</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="band-ink final">
+    <div class="wrap">
+      <span class="eyebrow">Custovault</span>
+      <h2>Own your AI. Not the risk.</h2>
+      <p>If a sovereign, private AI platform would matter to you, let's talk about a founding-customer LOI.</p>
+      <a class="btn btn-solid" href="mailto:ab@custovault.com?subject=Custovault%20%E2%80%94%20founding%20customer">Book 30 minutes</a>
+      <p class="contact">CUSTOVAULT · <a href="mailto:ab@custovault.com">ab@custovault.com</a></p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="left">
+      <svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M 10 14 L 32 30 L 54 14" fill="none" stroke="#0A1F33" stroke-width="7" stroke-linecap="square"/>
+        <path d="M 14 30 L 32 43 L 50 30" fill="none" stroke="#0A1F33" stroke-width="7" stroke-linecap="square" opacity="0.62"/>
+        <path d="M 18 45 L 32 55 L 46 45" fill="none" stroke="#14418F" stroke-width="7" stroke-linecap="square"/>
+      </svg>
+      <span>© 2026 Custovault</span>
+    </div>
+    <span class="fine">EARLY CONCEPT · PRE-LAUNCH · SHARED WITH PROSPECTIVE FOUNDING CUSTOMERS</span>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('menutoggle');
+  const links = document.getElementById('navlinks');
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
