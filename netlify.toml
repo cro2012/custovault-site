@@ -1,0 +1,8 @@
+# Netlify site config. For a manual (drag-and-drop) deploy this is optional;
+# it matters if the site is later connected to a Git repo for auto-deploys.
+[build]
+  publish = "."
+
+# Security headers and redirects also live in the _headers and _redirects files,
+# which Netlify reads automatically. They are kept there so they work for both
+# manual and Git-based deploys.
