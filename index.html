@@ -369,6 +369,72 @@
     .menu-toggle { display: block; }
     .nav > .btn { display: none; }
   }
+
+  /* ---------- Demo modal ---------- */
+  button.btn { cursor: pointer; font-family: var(--sans); }
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(10,31,51,0.62);
+    display: none; align-items: flex-start; justify-content: center;
+    padding: 40px 20px; overflow-y: auto;
+    -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--paper); width: 100%; max-width: 540px;
+    border: 1px solid var(--line); position: relative;
+    animation: modalIn .18s ease;
+  }
+  @keyframes modalIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px; width: 34px; height: 34px;
+    border: 1px solid var(--line); background: var(--paper); cursor: pointer;
+    display: flex; align-items: center; justify-content: center; padding: 0;
+  }
+  .modal-close:hover { border-color: var(--cobalt); }
+  .modal-head { padding: 34px 36px 22px; border-bottom: 1px solid var(--line); }
+  .modal-head .eyebrow { margin-bottom: 14px; }
+  .modal-head h3 { font-size: 23px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.22; }
+  .modal-head p { margin-top: 12px; font-size: 14.5px; color: var(--slate); }
+  .modal-body { padding: 26px 36px 34px; }
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.07em;
+    text-transform: uppercase; color: var(--ink); margin-bottom: 7px;
+  }
+  .field label .opt { color: var(--slate); text-transform: none; letter-spacing: 0; }
+  .field input, .field select, .field textarea {
+    width: 100%; font-family: var(--sans); font-size: 15px; color: var(--ink);
+    background: var(--paper); border: 1px solid var(--line); padding: 12px 13px;
+    border-radius: 0; -webkit-appearance: none; appearance: none;
+  }
+  .field textarea { resize: vertical; min-height: 84px; line-height: 1.5; }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none; border-color: var(--cobalt); box-shadow: 0 0 0 2px rgba(20,65,143,0.12);
+  }
+  .field.phone .phone-row { display: grid; grid-template-columns: 152px 1fr; gap: 10px; }
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%235B6B7C' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 11px center; padding-right: 30px;
+  }
+  .modal-submit { width: 100%; margin-top: 6px; text-align: center; }
+  .modal-submit:disabled { opacity: 0.6; cursor: default; }
+  .modal-note { margin-top: 14px; font-size: 12px; color: var(--slate); text-align: center; }
+  .hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .form-error { display: none; margin-top: 14px; padding: 12px 14px; border: 1px solid #C0453F; background: #FBEDEC; font-size: 13.5px; color: #8A2B27; }
+  .form-error.show { display: block; }
+  .form-error a { color: var(--cobalt); }
+  .modal-success { padding: 46px 36px 50px; text-align: center; }
+  .modal-success .check { width: 52px; height: 52px; margin: 0 auto 20px; border: 2px solid var(--cobalt); display: flex; align-items: center; justify-content: center; }
+  .modal-success h3 { font-size: 22px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.01em; }
+  .modal-success p { font-size: 15px; color: var(--slate); max-width: 360px; margin: 0 auto; }
+  @media (prefers-reduced-motion: reduce) { .modal { animation: none; } }
+  @media (max-width: 560px) {
+    .modal-head { padding: 30px 22px 18px; }
+    .modal-body { padding: 22px 22px 28px; }
+    .modal-success { padding: 38px 22px 42px; }
+    .field.phone .phone-row { grid-template-columns: 118px 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -391,7 +457,7 @@
       <a href="#compliance">Compliance</a>
       <a href="#founding">Founding customers</a>
     </nav>
-    <a class="btn btn-solid" href="mailto:ab@custovault.com?subject=Custovault%20%E2%80%94%20founding%20customer">Book 30 minutes</a>
+    <button type="button" class="btn btn-solid" data-open-demo>Book free demo</button>
     <button class="menu-toggle" id="menutoggle" aria-label="Menu" aria-expanded="false">
       <svg width="24" height="24" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke="#0A1F33" stroke-width="2" stroke-linecap="square"/></svg>
     </button>
@@ -752,8 +818,8 @@
     <div class="wrap">
       <span class="eyebrow">Custovault</span>
       <h2>Own your AI. Not the risk.</h2>
-      <p>If a sovereign, private AI platform would matter to you, let's talk about a founding-customer LOI.</p>
-      <a class="btn btn-solid" href="mailto:ab@custovault.com?subject=Custovault%20%E2%80%94%20founding%20customer">Book 30 minutes</a>
+      <p>If a sovereign, private AI platform would matter to you, book a free demo on your own use case — no commitment.</p>
+      <button type="button" class="btn btn-solid" data-open-demo>Book free demo</button>
       <p class="contact">CUSTOVAULT · <a href="mailto:ab@custovault.com">ab@custovault.com</a></p>
     </div>
   </section>
@@ -774,6 +840,64 @@
   </div>
 </footer>
 
+<!-- ============ DEMO MODAL ============ -->
+<div class="modal-overlay" id="demoModal" role="dialog" aria-modal="true" aria-labelledby="demoTitle" hidden>
+  <div class="modal">
+    <button type="button" class="modal-close" id="demoClose" aria-label="Close">
+      <svg width="15" height="15" viewBox="0 0 15 15" aria-hidden="true"><path d="M1 1l13 13M14 1L1 14" stroke="#0A1F33" stroke-width="1.6"/></svg>
+    </button>
+    <div id="demoFormWrap">
+      <div class="modal-head">
+        <span class="eyebrow">Book a demo</span>
+        <h3 id="demoTitle">See Custovault on your use case</h3>
+        <p>A free, no-obligation walkthrough: we show how a sovereign AI employee would work on your data and answer your questions. No payment, no card details, nothing to install. Tell us a little and we'll reach out to schedule.</p>
+      </div>
+      <div class="modal-body">
+        <form name="demo-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="demoForm">
+          <input type="hidden" name="form-name" value="demo-request">
+          <input type="hidden" name="phone" id="demoPhoneHidden">
+          <p class="hp"><label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+
+          <div class="field">
+            <label for="demoName">Full name</label>
+            <input type="text" id="demoName" name="name" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="demoCompany">Company <span class="opt">(optional)</span></label>
+            <input type="text" id="demoCompany" name="company" autocomplete="organization">
+          </div>
+          <div class="field">
+            <label for="demoEmail">Work email</label>
+            <input type="email" id="demoEmail" name="email" autocomplete="email" required>
+          </div>
+          <div class="field phone">
+            <label for="demoPhone">Phone <span class="opt">(optional)</span></label>
+            <div class="phone-row">
+              <select id="demoPhoneCode" aria-label="Country dialing code"></select>
+              <input type="tel" id="demoPhone" inputmode="tel" placeholder="99 123 456" autocomplete="tel-national">
+            </div>
+          </div>
+          <div class="field">
+            <label for="demoMessage">What would you like to see? <span class="opt">(optional)</span></label>
+            <textarea id="demoMessage" name="message" placeholder="Your use case, the data sources involved, or any question — as much or as little as you like."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-solid modal-submit" id="demoSubmit">Request demo</button>
+          <div class="form-error" id="demoError">Sorry, something went wrong sending your request. Please email <a href="mailto:ab@custovault.com">ab@custovault.com</a> directly.</div>
+          <p class="modal-note">Free · no card details · we reply from a custovault.com address.</p>
+        </form>
+      </div>
+    </div>
+    <div id="demoSuccess" class="modal-success" hidden>
+      <div class="check">
+        <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M4 13l6 6 12-13" fill="none" stroke="#14418F" stroke-width="2.2"/></svg>
+      </div>
+      <h3>Request received</h3>
+      <p>Thanks — we've got your demo request and will be in touch shortly to find a time.</p>
+    </div>
+  </div>
+</div>
+
 <script>
   const toggle = document.getElementById('menutoggle');
   const links = document.getElementById('navlinks');
@@ -791,6 +915,106 @@
   } else {
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
   }
+
+  // ---- Demo modal + Netlify form ----
+  (function () {
+    const modal = document.getElementById('demoModal');
+    if (!modal) return;
+    const form = document.getElementById('demoForm');
+    const openers = document.querySelectorAll('[data-open-demo]');
+    const closeBtn = document.getElementById('demoClose');
+    const submitBtn = document.getElementById('demoSubmit');
+    const errorBox = document.getElementById('demoError');
+    const formWrap = document.getElementById('demoFormWrap');
+    const successBox = document.getElementById('demoSuccess');
+    const codeSel = document.getElementById('demoPhoneCode');
+    const phoneInput = document.getElementById('demoPhone');
+    const phoneHidden = document.getElementById('demoPhoneHidden');
+    let lastFocus = null;
+
+    const codes = [
+      ['Cyprus', '+357'], ['United Kingdom', '+44'], ['Germany', '+49'], ['France', '+33'],
+      ['Netherlands', '+31'], ['Ireland', '+353'], ['Spain', '+34'], ['Italy', '+39'],
+      ['Belgium', '+32'], ['Luxembourg', '+352'], ['Austria', '+43'], ['Portugal', '+351'],
+      ['Greece', '+30'], ['Poland', '+48'], ['Sweden', '+46'], ['Denmark', '+45'],
+      ['Finland', '+358'], ['Norway', '+47'], ['Switzerland', '+41'], ['Czechia', '+420'],
+      ['Romania', '+40'], ['Hungary', '+36'], ['Bulgaria', '+359'], ['Slovakia', '+421'],
+      ['Slovenia', '+386'], ['Croatia', '+385'], ['Lithuania', '+370'], ['Latvia', '+371'],
+      ['Estonia', '+372'], ['Malta', '+356'], ['United States / Canada', '+1'],
+      ['United Arab Emirates', '+971'], ['Israel', '+972'], ['Turkey', '+90'], ['Ukraine', '+380']
+    ];
+    codes.forEach(([name, code]) => {
+      const o = document.createElement('option');
+      o.value = code;
+      o.textContent = name + ' (' + code + ')';
+      if (code === '+357') o.selected = true;
+      codeSel.appendChild(o);
+    });
+
+    function resetToForm() {
+      form.reset();
+      successBox.hidden = true;
+      formWrap.hidden = false;
+      errorBox.classList.remove('show');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Request demo';
+    }
+    function onKey(e) {
+      if (e.key === 'Escape') { closeModal(); return; }
+      if (e.key === 'Tab') {
+        const f = Array.from(modal.querySelectorAll('button, input, select, textarea, a[href]'))
+          .filter(el => el.offsetParent !== null && !el.disabled);
+        if (!f.length) return;
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    }
+    function openModal() {
+      lastFocus = document.activeElement;
+      modal.hidden = false;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.addEventListener('keydown', onKey);
+      setTimeout(() => document.getElementById('demoName').focus(), 40);
+    }
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.hidden = true;
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKey);
+      if (!successBox.hidden) resetToForm();
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    openers.forEach(b => b.addEventListener('click', openModal));
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const num = phoneInput.value.trim();
+      phoneHidden.value = num ? (codeSel.value + ' ' + num) : '';
+      errorBox.classList.remove('show');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      try {
+        const body = new URLSearchParams(new FormData(form)).toString();
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        formWrap.hidden = true;
+        successBox.hidden = false;
+      } catch (err) {
+        errorBox.classList.add('show');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Request demo';
+      }
+    });
+  })();
 </script>
 
 </body>
