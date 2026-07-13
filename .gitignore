@@ -1,0 +1,9 @@
+# Internal — not part of the published site (Netlify publishes repo root)
+DEPLOY.md
+
+# Local build artifacts
+*.zip
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
