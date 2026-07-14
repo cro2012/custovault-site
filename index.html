@@ -435,6 +435,10 @@
     .modal-success { padding: 38px 22px 42px; }
     .field.phone .phone-row { grid-template-columns: 118px 1fr; }
   }
+
+  /* ---------- Service 2x2 ---------- */
+  .cards-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px; }
+  @media (max-width: 720px) { .cards-2x2 { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -453,6 +457,7 @@
       <a href="#why-now">Why now</a>
       <a href="#value">What you gain</a>
       <a href="#how">How it works</a>
+      <a href="#service">Service</a>
       <a href="#use-cases">Use cases</a>
       <a href="#compliance">Compliance</a>
       <a href="#founding">Founding customers</a>
@@ -483,6 +488,7 @@
           <span class="chip">SINGLE TENANT</span>
           <span class="chip">DORA-READY EVIDENCE</span>
           <span class="chip">OPEN-WEIGHT MODELS ONLY</span>
+          <span class="chip">NO LOCK-IN — LEAVE ANY TIME</span>
         </div>
       </div>
       <div class="hero-visual" aria-hidden="true">
@@ -591,6 +597,7 @@
               <span class="point">ON-PREM SQL / ORACLE</span>
               <span class="point">SAP</span>
               <span class="point">FILES / SHAREPOINT</span>
+              <span class="point">EMAIL / M365</span>
               <span class="point">MARKET &amp; EXCHANGE FEEDS</span>
             </div>
           </div>
@@ -602,12 +609,13 @@
             <span class="sub">Your AI employee · subscription</span>
           </div>
           <div class="body">
-            <p>A dedicated EU tenant running curated open-weight models (e.g. Mistral) and a bespoke fine-tune on 100–200 of your reference documents — output in your house style. Ask-your-data chat, vertical task agents, scheduled reports on live data, an OpenAI-compatible API. We handle MLOps, monitoring and support.</p>
+            <p>A dedicated EU tenant running curated open-weight models (e.g. Mistral) and a bespoke fine-tune on 100–200 of your reference documents — output in your house style. Ask-your-data chat, vertical task agents, scheduled reports on live data, an OpenAI-compatible API. We handle MLOps, monitoring and support — and we train your team, with prompt playbooks and usage SOPs that keep answers reliable.</p>
             <div class="points">
               <span class="point">TALK TO YOUR DATA</span>
               <span class="point">TASK AGENTS</span>
               <span class="point">SCHEDULED REPORTING</span>
               <span class="point">OPENAI-COMPATIBLE API</span>
+              <span class="point">TEAM TRAINING &amp; SOPS</span>
             </div>
           </div>
         </div>
@@ -626,6 +634,37 @@
               <span class="point">KEY &amp; WEIGHT ESCROW</span>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICE & CONTINUITY ============ -->
+  <section id="service">
+    <div class="wrap">
+      <span class="eyebrow">Service &amp; continuity</span>
+      <h2>Free to leave. No reason to.</h2>
+      <p class="section-intro">The era of locking clients into platforms is over. We keep you by being worth keeping — and we prove you can walk away.</p>
+      <div class="cards-2x2">
+        <div class="card reveal">
+          <span class="num">01</span>
+          <h3>Your team, trained</h3>
+          <p>Onboarding, prompt playbooks and usage SOPs are part of the product. We tune how your people work with the AI employee — workspace structure, what to ask, what not to trust — so it gets used, and used safely.</p>
+        </div>
+        <div class="card reveal">
+          <span class="num">02</span>
+          <h3>Never silently outdated</h3>
+          <p>Models, connectors and the platform are upgraded on a published cadence — re-benchmarked on your evaluation set before rollout, with release notes your team actually receives. You will never discover you've been six months stale.</p>
+        </div>
+        <div class="card reveal">
+          <span class="num">03</span>
+          <h3>A human all along the way</h3>
+          <p>A named contact who knows your setup — from first connector to board audit. Support is how we earn the subscription, not a footnote in the contract.</p>
+        </div>
+        <div class="card reveal">
+          <span class="num">04</span>
+          <h3>Built to survive us</h3>
+          <p>Key and model-weight escrow, a documented exit plan, standard formats. If Custovault disappeared tomorrow, your tenant keeps running and everything in it is yours. That isn't a caveat — it's the design.</p>
         </div>
       </div>
     </div>
@@ -748,7 +787,7 @@
         <div class="card reveal"><span class="num">03</span><h3>Data never leaves</h3><p>No egress to third parties. Never used to train shared or foundation models.</p></div>
         <div class="card reveal"><span class="num">04</span><h3>Isolated tenant</h3><p>Dedicated single tenant; confidential computing on the roadmap — so even the operator can't see data in use.</p></div>
         <div class="card reveal"><span class="num">05</span><h3>EU jurisdiction</h3><p>Hosted in the EU, under EU law, with full audit logs across every layer.</p></div>
-        <div class="card reveal"><span class="num">06</span><h3>Portable — no lock-in</h3><p>Exit tooling and a documented exit path, plus a DORA-ready evidence pack.</p></div>
+        <div class="card reveal"><span class="num">06</span><h3>Leave any time</h3><p>Exit tooling, a documented exit path and key &amp; weight escrow. Leaving must be easy — otherwise staying means nothing. DORA-ready evidence pack included.</p></div>
       </div>
       <div class="honest reveal">
         <strong>What we don't promise:</strong> that you'll "pass supervision". We give you the contour, the artifacts and reversibility — the supervisory conversation stays yours, with evidence in hand.
